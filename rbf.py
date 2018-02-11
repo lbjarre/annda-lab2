@@ -1,8 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def generate_data():
-    pattern = np.arange(0, 2*np.pi, 0.1)
+def generate_data(sample_start, step_size):
+    pattern = np.arange(sample_start, 2*np.pi, step_size)
     pattern = pattern.reshape((-1,1))
 
     target_sin = np.sin(2*pattern)
@@ -14,59 +14,64 @@ def generate_data():
 def rbf_iter(X, MU, sigma):
     fi = np.zeros((len(X), len(MU)))
     for i in range(len(X)):
-        for j in range(len(MU)):
-            fi[i,j] = np.exp((-(X[i]-MU[j])**2)/(2*sigma[j]**2))
+            fi[i,:] = np.exp((-(X[i]-MU)**2)/(2*sigma**2))
     return fi
 
-def rbf(x, mu, sigma):
-    fi = np.exp((-(x-mu)**2)/(2*sigma**2))
-    return fi
+def rbf_learning(patterns, targets, mu, sigma):
+    fi = rbf_iter(patterns, mu, sigma)
+    weights = np.linalg.solve(np.dot(fi.T, fi), np.dot(fi.T, targets))
+    predicts = np.dot(fi, weights)
+    residual = (np.abs(targets-predicts))
+    return residual, weights
 
-rbf_vect = np.vectorize(rbf)
-
-def rbf_learning(pattern, target, mu):
-    sigma = np.ones(mu.shape)
-    fi2 = rbf_iter(pattern, mu, sigma)
-    weight = np.linalg.solve(np.dot(fi2.T, fi2), np.dot(fi2.T, target))
-    predict = np.dot(fi2, weight)
-    residual = target - predict
-
-    return predict, np.abs(residual)
-
-def delta_rule(patterns, targets, mu, eta, epochs):
-    sigma = np.ones(mu.shape)
+def delta_rule(patterns, targets, mu, sigma, eta, epochs):
+    patterns_targets = np.hstack((patterns, targets))
     weights = np.random.normal(size=(1,len(mu)))
     predicts=np.zeros(targets.shape)
     residuals = []
     for epoch in range(epochs):
+        np.random.shuffle(patterns_targets)
+        patterns = patterns_targets[:, 0]
+        targets = patterns_targets[:, 1]
         for i in range(len(patterns)):
-            fi = rbf_iter(patterns[i], mu, sigma)
+            fi = rbf_iter([patterns[i]], mu, sigma)
             predict = np.dot(fi, weights.T)
             weights += np.squeeze(eta*(targets[i]-predict)*fi)
             predicts[i] = predict
         residuals.append(np.abs(np.mean((targets-predicts))))
-    return predicts, residuals
+    return residuals, weights
 
 if __name__ == "__main__":
-    pattern, target_sin, target_square = generate_data()
-    mu = np.asarray([np.pi*n/4 for n in range(0,50)])
+    mu = np.asarray([np.pi*n/4 for n in range(0,10)])
+    sigma = np.ones(mu.shape)*1
     epochs = 100
-    eta = 0.5
-    predict_batch, residual = rbf_learning(pattern, target_sin, mu)
-    predict_seq, abs_residual = delta_rule(pattern, target_sin, mu, eta, epochs)
+    eta = 0.7
 
-    # fig1 = plt.figure()
-    # plt.plot(pattern, target_sin)
-    # plt.plot(pattern, predict_batch)
+    pattern, target_sin, target_square = generate_data(0, 0.1)
+    test_pattern, test_target_sin, test_target_square = generate_data(0.05, 0.1)
+    test_fi = rbf_iter(test_pattern, mu, sigma)
+
+
+    """Batch learning"""
+    abs_residual_batch, weights_batch = rbf_learning(pattern, target_sin, mu, sigma)
+    test_predict_batch = np.dot(test_fi, weights_batch)
+
+    fig1 = plt.figure()
+    plt.plot(test_pattern, test_target_sin)
+    plt.plot(test_pattern, test_predict_batch)
+
+    fig2 = plt.figure()
+    plt.plot(abs_residual_batch)
+
+    """Sequential learning"""
+    # abs_residual_seq, weights_seq = delta_rule(pattern, target_sin, mu, sigma, eta, epochs)
+    # test_predict_seq = np.dot(test_fi, weights_seq.T)
     #
-    # fig2 = plt.figure()
-    # plt.plot(pattern, residual)
-    # plt.show()
-
-    fig3 = plt.figure()
-    plt.plot(pattern,target_sin, color='r')
-    plt.plot(pattern, predict_seq, color='b')
-    fig4 = plt.figure()
-
-    plt.plot(abs_residual)
+    #
+    # fig3 = plt.figure()
+    # plt.plot(test_pattern, test_target_sin, color='r')
+    # plt.plot(test_pattern, test_predict_seq, color='b')
+    #
+    # fig4 = plt.figure()
+    # plt.plot(abs_residual_seq)
     plt.show()
