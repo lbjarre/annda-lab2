@@ -104,12 +104,11 @@ def loadData():
 
     return train_data, train_labels, test_data, test_labels
 
-def initMu(n, d):
-    for i in range(t):
-        x_samp = np.random.choice(x)
-        d, in_radius = dist_(x_samp,mu_cl,r=1)
-        mu_cl += eta*np.multiply(in_radius,x_samp-mu_cl)
-    return mu_cl
+def initMu(x,mu):
+    #randomly select input points
+    d = np.subtract.outer(x,mu)
+    print d
+
 
 def assignment1():
     x, valid, label = generateData()
@@ -200,9 +199,9 @@ def assignment1_ballist():
     for i in range(no_of_nodes):
         index = np.random.choice(ind)
         mu.append(train_data[index,:])
-    mu = np.array(mu)
 
-    mu_cl = clearning(train_data,mu)
+    init_mu(x,mu)
+
 
 
 if __name__ == "__main__":
