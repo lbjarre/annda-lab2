@@ -14,7 +14,7 @@ def generateData(noise=1,offset=0.05):
 
     return train, valid, label
 
-def phi_i(x,mu,sigma2=0.5):
+def phi(x,mu,sigma2=0.5):
     temp = []
     for i in range(len(mu)):
         phi = np.exp(-((x-mu[i])**2)/(2*sigma2))
@@ -25,7 +25,7 @@ def phi_i(x,mu,sigma2=0.5):
 
 def batch_train(x,label,mu,sigma2=1):
 
-    phi_x = phi_i(x, mu).T
+    phi_x = phi(x, mu).T
 
     A = np.dot(phi_x.T,phi_x)
     b = np.dot(phi_x.T,label)
@@ -33,12 +33,11 @@ def batch_train(x,label,mu,sigma2=1):
 
     f_hat = np.dot(W_optimal,phi_x.T)
 
-
     return f_hat, W_optimal
 
 def seq_learn(x,label,mu,t, eta):
     W = np.random.rand(len(mu))*.1
-    phi_x = phi_i(x, mu)
+    phi_x = phi(x, mu)
 
     for j in range(t):
         for i in range(len(x)):
@@ -104,10 +103,32 @@ def loadData():
 
     return train_data, train_labels, test_data, test_labels
 
-def initMu(x,mu):
+def initMu(x, mu, t=20, eta=0.2, n=10,rad=0.1):
     #randomly select input points
-    d = np.subtract.outer(x,mu)
-    print d
+    temp = np.zeros((n,len(mu)))
+
+    x_samp= np.zeros((n,x.shape[1]))
+
+    ind = np.arange(0,x.shape[0])
+
+    for j in range(t):
+        #sample x
+        for i in range(n):
+            index = np.random.choice(ind)
+            x_samp[i,:] = x[index,:]
+
+        for i in range(n):
+            #calculate closest node
+            d = np.sum((x_samp[i,:]-mu)**2,1)
+
+            nbh = np.abs((d-np.min(d)))
+
+            nbh = nbh<=rad
+
+            #closest nodes are updated
+            mu += x_samp[i,:] - np.multiply(nbh.reshape(-1,1),mu)
+
+        return mu
 
 
 def assignment1():
@@ -126,10 +147,10 @@ def assignment1():
     f_hat_b_cl, W_b_cl = batch_train(x, label, mu_cl)
     f_hat_seq_cl, W_seq_cl = seq_learn(x,label,mu_cl,t,eta)
 
-    phi_x = phi_i(valid,mu)
+    phi_x = phi(valid,mu)
     f_hat_b_test = np.dot(W_b,phi_x)
     f_hat_seq_test = np.dot(W_seq,phi_x)
-    phi_x_cl = phi_i(valid,mu_cl)
+    phi_x_cl = phi(valid,mu_cl)
     f_hat_b_test_cl = np.dot(W_b_cl,phi_x_cl)
     f_hat_seq_test_cl = np.dot(W_seq_cl,phi_x_cl)
 
@@ -199,11 +220,11 @@ def assignment1_ballist():
     for i in range(no_of_nodes):
         index = np.random.choice(ind)
         mu.append(train_data[index,:])
-
-    init_mu(x,mu)
+    mu = np.array(mu)
+    #phi = phi(train_data, mu)
 
 
 
 if __name__ == "__main__":
     assignment1()
-    #assignment1_ballist()
+    assignment1_ballist()
