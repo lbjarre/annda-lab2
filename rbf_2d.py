@@ -1,6 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+np.random.seed(1337)
+
 def loadData():
     data = []
     with open('data_lab2/ballist.dat', 'r') as f:
@@ -30,7 +32,7 @@ def loadData():
 
     return train_data, train_labels, test_data, test_labels
 
-def initMu(x, mu, t=20, eta=0.2, n=10,rad=0.1):
+def initMu(x, mu, t=20, eta=0.2, n=10,rad=1):
     #randomly select input points
     temp = np.zeros((n,len(mu)))
 
@@ -75,23 +77,25 @@ def batch_train(x,label,mu,sigma2=1):
     return f_hat, W
 
 def seq_learn(x,label,mu,t, eta):
-    W = np.random.rand(len(mu))*.1
+    W = np.random.rand(mu.shape[0],mu.shape[1])*.1
     phi_x = phi(x, mu)
 
     for j in range(t):
         for i in range(len(x)):
-            f_hat = np.dot(W, phi_x[:,i])
+            f_hat = np.dot(W.T, phi_x[i,:])
             e = label[i]-f_hat
-            delta_W = eta*e*phi_x[:,i]
-            W += delta_W
-    f_hat = np.dot(W,phi_x)
+            delta_W = eta*np.outer(e,phi_x[i,:]).T
 
-    return f_hat, W
+            W += delta_W
+
+    f = np.dot(phi_x,W)
+
+    return f, W
 
 def assignment1_ballist():
     train_data, train_labels, test_data, test_labels = loadData()
 
-    no_of_nodes = 6
+    no_of_nodes = 20
 
     mu = []
     ind = np.arange(0,train_data.shape[0])
@@ -100,22 +104,18 @@ def assignment1_ballist():
         mu.append(train_data[index,:])
     mu = np.array(mu)
 
-    t = 100 # number of epochs
-    eta = 0.2 # step size
+    t = 150
+    eta = 0.2
 
     f_hat_b, W_b = batch_train(train_data, train_labels, mu)
-    f_hat_seq, W_seq = seq_learn(train_data, train_labels, mu, t, eta)
+    f_hat_s, W_s = seq_learn(train_data, train_labels, mu, t, eta)
 
     plt.figure()
-    plt.scatter(f_hat_b[:,0],f_hat_b[:,1], c='b')
-    plt.scatter(train_labels[:,0],train_labels[:,1], c='r')
-    #plt.show()
+    plt.scatter(f_hat_s[:,0],f_hat_s[:,1], c='b')
+    plt.scatter(f_hat_b[:,0], f_hat_b[:,1], c='r')
+    plt.scatter(train_labels[:,0],train_labels[:,1], c='g')
+    plt.show()
 
-    plt.figure()
-    plt.scatter(f_hat_seq[:,0],f_hat_seq[:,1], c='b')
-    plt.scatter(train_labels[:,0],train_labels[:,1], c='r')
-
-    #plt.show()
 
 if __name__ == '__main__':
     assignment1_ballist()

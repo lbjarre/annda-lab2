@@ -1,43 +1,48 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import sys
+from scipy import signal
 
 np.random.seed(1234)
 
-def generateData(noise=1,offset=0.05):
+def generateData(fun=0, noise=0,offset=0.05):
 
     t = np.arange(0,2*np.pi,0.1)
     train = np.copy(t)
     valid = t+0.05
-    label = np.sin(2*t)
-    label = label + np.random.normal(0,0.3,len(train))
+    if fun==0:
+        label = np.sin(2*t)
+    else:
+        label = signal.square(2*t)
+    label = label + np.random.normal(0,0.3,len(train))*noise
 
     return train, valid, label
 
 def phi(x,mu,sigma2=0.5):
+
     temp = []
+
     for i in range(len(mu)):
         phi = np.exp(-((x-mu[i])**2)/(2*sigma2))
         temp.append(phi)
     phi = np.array(temp)
     return phi
 
-
-def batch_train(x,label,mu,sigma2=1):
-
-    phi_x = phi(x, mu).T
+def batch_train(x,label,phi_x,sigma2=1):
 
     A = np.dot(phi_x.T,phi_x)
     b = np.dot(phi_x.T,label)
     W_optimal = np.linalg.solve(A,b)
 
-    f_hat = np.dot(W_optimal,phi_x.T)
+    f_hat = np.sign(np.dot(W_optimal,phi_x.T))
 
-    return f_hat, W_optimal
+    error = np.mean((f_hat-label)**2)
+
+    return f_hat, W_optimal, error
 
 def seq_learn(x,label,mu,t, eta):
     W = np.random.rand(len(mu))*.1
     phi_x = phi(x, mu)
+    error = []
 
     for j in range(t):
         for i in range(len(x)):
@@ -47,9 +52,13 @@ def seq_learn(x,label,mu,t, eta):
 
             W += delta_W
 
+        f_temp = np.dot(W,phi_x)
+        tot_err = (f_temp-label).T*(f_temp-label)
+        error.append(np.mean(tot_err))
+
     f_hat = np.dot(W,phi_x)
 
-    return f_hat, W
+    return f_hat, W, error
 
 def dist_(x, W, r=.5):
     temp = np.subtract.outer(x,W)
@@ -74,78 +83,50 @@ def winner(x,mu,fac=5):
 
     return wins
 
-def loadData():
-    data = []
-    with open('data_lab2/ballist.dat', 'r') as f:
-        next = f.readline()
-        while next != "":
-            list = next.replace('\t',' ').replace('\n', '').split(' ')
-            list = [float(i) for i in list]
-            data.append(list)
-            next = f.readline()
+def batch_plots(sigma2=1):
+    x, valid, label = generateData(fun=1, noise=0)
 
-    train = np.copy(data)
-    train_data = train[:,0:2]
-    train_labels = train[:,2:4]
+    no_of_nodes = np.arange(1,16,1)
+    errors = []
 
-    data = []
-    with open('data_lab2/balltest.dat', 'r') as f:
-        next = f.readline()
-        while next != "":
-            list = next.replace('\t',' ').replace('\n', '').split(' ')
-            list = [float(i) for i in list]
-            data.append(list)
-            next = f.readline()
+    for i in no_of_nodes:
+        #mu = np.random.uniform(low=0, high=np.pi*2, size=(i,))
+        mu = np.linspace(0,2*np.pi,i)
+        phi_x = phi(x,mu,sigma2).T
+        f_hat_b, W_b, error = batch_train(x, label, phi_x)
+        errors.append(error)
 
-    test = np.copy(data)
-    test_data = test[:,0:2]
-    test_labels = test[:,2:4]
+    print(errors)
 
-    return train_data, train_labels, test_data, test_labels
+    fig = plt.figure()
 
-def initMu(x, mu, t=20, eta=0.2, n=10,rad=0.1):
-    #randomly select input points
-    temp = np.zeros((n,len(mu)))
+    #plt.plot(no_of_nodes, errors)
+    tru, = plt.plot(x,f_hat_b, c="b", label="Estimated")
+    est, = plt.plot(x,label, '--r', label="True")
 
-    x_samp= np.zeros((n,x.shape[1]))
+    nodes = plt.scatter(mu, np.zeros(mu.shape), label="Nodes")
+    plt.legend(handles=[est, tru, nodes])
+    plt.title('Square(2x): Sigma = ' + str(sigma2) + ' - 15 nodes')
 
-    ind = np.arange(0,x.shape[0])
+    fig.savefig('report/plots/batch/best_square_cheat')
 
-    for j in range(t):
-        #sample x
-        for i in range(n):
-            index = np.random.choice(ind)
-            x_samp[i,:] = x[index,:]
-
-        for i in range(n):
-            #calculate closest node
-            d = np.sum((x_samp[i,:]-mu)**2,1)
-
-            nbh = np.abs((d-np.min(d)))
-
-            nbh = nbh<=rad
-
-            #closest nodes are updated
-            mu += x_samp[i,:] - np.multiply(nbh.reshape(-1,1),mu)
-
-        return mu
-
+    plt.show()
 
 def assignment1():
     x, valid, label = generateData()
     t = 100 #number of epochs
     eta = 0.2 #step size, learning rate
-    mu = np.random.uniform(low=0, high=np.pi*2, size=(6,))
+    mu = np.random.uniform(low=0, high=np.pi*2, size=(7,))
     #mu = np.linspace(0,2*np.pi,6)
-    f_hat_b, W_b = batch_train(x, label, mu)
+    f_hat_b, W_b, erb = batch_train(x, label, mu)
     winners = winner(x,mu)
 
-    f_hat_seq, W_seq = seq_learn(x,label,mu,t,eta)
+    f_hat_seq, W_seq, error_s = seq_learn(x,label,mu,t,eta)
     mu_cl = np.copy(mu)
     mu_cl = clearning(x,mu_cl)
     winners_cl = winner(x,mu_cl)
-    f_hat_b_cl, W_b_cl = batch_train(x, label, mu_cl)
-    f_hat_seq_cl, W_seq_cl = seq_learn(x,label,mu_cl,t,eta)
+    f_hat_b_cl, W_b_cl, erb_cl = batch_train(x, label, mu_cl)
+    f_hat_seq_cl, W_seq_cl, error_s_cl = seq_learn(x,label,mu_cl,t,eta)
 
     phi_x = phi(valid,mu)
     f_hat_b_test = np.dot(W_b,phi_x)
@@ -153,6 +134,9 @@ def assignment1():
     phi_x_cl = phi(valid,mu_cl)
     f_hat_b_test_cl = np.dot(W_b_cl,phi_x_cl)
     f_hat_seq_test_cl = np.dot(W_seq_cl,phi_x_cl)
+
+    plt.plot(error_s)
+    #plt.show()
 
     fig, ax = plt.subplots(2,2)
     plt.subplot(2,2,1)
@@ -179,7 +163,7 @@ def assignment1():
     plt.scatter(mu_cl,np.zeros(mu.shape),s=winners_cl)
     plt.title('f_hat_seq_cl')
 
-    plt.show()
+    #plt.show()
 
     fig, ax = plt.subplots(2,2)
     plt.subplot(2,2,1)
@@ -206,25 +190,9 @@ def assignment1():
     plt.scatter(mu_cl,np.zeros(mu.shape),s=winners_cl)
     plt.title('f_hat_b_cl_test')
 
-
-    plt.show()
-
-
-def assignment1_ballist():
-    train_data, train_labels, test_data, test_labels = loadData()
-
-    no_of_nodes = 6
-
-    mu = []
-    ind = np.arange(0,train_data.shape[0])
-    for i in range(no_of_nodes):
-        index = np.random.choice(ind)
-        mu.append(train_data[index,:])
-    mu = np.array(mu)
-    #phi = phi(train_data, mu)
-
+    #plt.show()
 
 
 if __name__ == "__main__":
-    assignment1()
-    assignment1_ballist()
+    #assignment1()
+    batch_plots()
