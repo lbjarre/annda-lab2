@@ -11,11 +11,14 @@ def generateData(fun=0, noise=0,offset=0.05):
     valid = t+0.05
     if fun==0:
         label = np.sin(2*t)
+        valid_label = np.sin(2*valid)
     else:
         label = signal.square(2*t)
-    label = label + np.random.normal(0,0.3,len(train))*noise
-
-    return train, valid, label
+        valid_label = signal.square(2*valid)
+    label = label + np.random.normal(0,0.1,len(train))*noise
+    valid_label = valid_label + np.random.normal(0,0.1,len(train))*noise
+    
+    return train, valid, label, valid_label
 
 def phi(x,mu,sigma2=0.5):
 
@@ -33,32 +36,39 @@ def batch_train(x,label,phi_x,sigma2=1):
     b = np.dot(phi_x.T,label)
     W_optimal = np.linalg.solve(A,b)
 
-    f_hat = np.sign(np.dot(W_optimal,phi_x.T))
+    f_hat = np.dot(W_optimal,phi_x.T)
+    #f_hat = np.sign(f_hat)
 
     error = np.mean((f_hat-label)**2)
 
     return f_hat, W_optimal, error
 
-def seq_learn(x,label,mu,t, eta):
-    W = np.random.rand(len(mu))*.1
-    phi_x = phi(x, mu)
+def seq_learn(x, label, phi_x, t, eta):
+    W = np.random.rand(phi_x.shape[1])*.1
     error = []
+    order = np.arange(x.shape[0])
 
     for j in range(t):
-        for i in range(len(x)):
-            f_hat = np.dot(W, phi_x[:,i])
-            e = label[i]-f_hat
-            delta_W = eta*e*phi_x[:,i]
+        order = np.shuffle(order)
 
+        x = x[order]
+        label = label[order]
+        phi_x = phi_x[order]
+
+        for i in range(len(x)):
+            f_hat = np.dot(W, phi_x[i,:].T)
+            e = label[i]-f_hat
+            delta_W = eta*e*phi_x[i,:]
             W += delta_W
 
-        f_temp = np.dot(W,phi_x)
+        f_temp = np.dot(W,phi_x.T)
         tot_err = (f_temp-label).T*(f_temp-label)
+        print(np.mean(tot_err))
         error.append(np.mean(tot_err))
 
-    f_hat = np.dot(W,phi_x)
+    f = np.dot(W,phi_x.T)
 
-    return f_hat, W, error
+    return f, W, error
 
 def dist_(x, W, r=.5):
     temp = np.subtract.outer(x,W)
@@ -83,10 +93,10 @@ def winner(x,mu,fac=5):
 
     return wins
 
-def batch_plots(sigma2=1):
-    x, valid, label = generateData(fun=1, noise=0)
+def batch_plots(sigma2=0.1):
+    x, valid, label, valid_label = generateData(fun=0, noise=1)
 
-    no_of_nodes = np.arange(1,16,1)
+    no_of_nodes = np.arange(1,21,1)
     errors = []
 
     for i in no_of_nodes:
@@ -96,20 +106,47 @@ def batch_plots(sigma2=1):
         f_hat_b, W_b, error = batch_train(x, label, phi_x)
         errors.append(error)
 
-    print(errors)
+    #print(errors)
 
     fig = plt.figure()
 
-    #plt.plot(no_of_nodes, errors)
     tru, = plt.plot(x,f_hat_b, c="b", label="Estimated")
     est, = plt.plot(x,label, '--r', label="True")
 
     nodes = plt.scatter(mu, np.zeros(mu.shape), label="Nodes")
     plt.legend(handles=[est, tru, nodes])
-    plt.title('Square(2x): Sigma = ' + str(sigma2) + ' - 15 nodes')
+    plt.xlabel('x')
+    plt.ylabel('f(x)')
 
-    fig.savefig('report/plots/batch/best_square_cheat')
+    """
+    plt.semilogy(no_of_nodes, errors)
+    plt.title('Sin(2x), with noise: Sigma = ' + str(sigma2))
+    plt.xlabel('# nodes')
+    plt.ylabel('error')
+    """
 
+    #fig.savefig('report/plots/noise/noise_batch_sin2x_best')
+
+    plt.show()
+
+def seq_plots(sigma2=1):
+    x, valid, label, valid_label = generateData(0, noise=1)
+    t = 100 #number of epochs
+    eta = 0.2 #step size, learning rate
+
+    no_of_nodes = np.arange(1,11,2)
+    errors = []
+
+    for i in no_of_nodes:
+        #mu = np.random.uniform(low=0, high=np.pi*2, size=(i,))
+        mu = np.linspace(0,2*np.pi,10)
+        phi_x = phi(x,mu,sigma2).T
+        f_hat, W, error = seq_learn(x, label, phi_x, t, eta)
+        errors.append(error)
+
+    plt.title('Sin(2x), with noise: Sigma = ' + str(sigma2))
+    plt.xlabel('# nodes')
+    plt.ylabel('error')
     plt.show()
 
 def assignment1():
@@ -195,4 +232,5 @@ def assignment1():
 
 if __name__ == "__main__":
     #assignment1()
-    batch_plots()
+    #batch_plots()
+    seq_plots()
