@@ -83,9 +83,7 @@ def seq_learn(x,label,mu,t, eta):
             f_hat = np.dot(W, phi_x[:,i])
             e = label[i]-f_hat
             delta_W = eta*e*phi_x[:,i]
-
             W += delta_W
-
     f_hat = np.dot(W,phi_x)
 
     return f_hat, W
@@ -102,14 +100,22 @@ def assignment1_ballist():
         mu.append(train_data[index,:])
     mu = np.array(mu)
 
-    f_hat, W_optimal = batch_train(train_data, train_labels, mu)
+    t = 100 # number of epochs
+    eta = 0.2 # step size
+
+    f_hat_b, W_b = batch_train(train_data, train_labels, mu)
+    f_hat_seq, W_seq = seq_learn(train_data, train_labels, mu, t, eta)
 
     plt.figure()
-    plt.scatter(f_hat[:,0],f_hat[:,1], c='b')
+    plt.scatter(f_hat_b[:,0],f_hat_b[:,1], c='b')
+    plt.scatter(train_labels[:,0],train_labels[:,1], c='r')
+    #plt.show()
+
+    plt.figure()
+    plt.scatter(f_hat_seq[:,0],f_hat_seq[:,1], c='b')
     plt.scatter(train_labels[:,0],train_labels[:,1], c='r')
 
-    plt.show()
-    print('a')
+    #plt.show()
 
 if __name__ == '__main__':
     assignment1_ballist()
