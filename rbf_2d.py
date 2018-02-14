@@ -109,7 +109,7 @@ def assignment1_ballist():
     plt.scatter(train_labels[:,0],train_labels[:,1], c='r')
 
     plt.show()
-
+    print('a')
 
 if __name__ == '__main__':
     assignment1_ballist()
