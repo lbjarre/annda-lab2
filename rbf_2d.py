@@ -150,7 +150,7 @@ def assignment1_ballist():
     f_h_s_cl = plt.scatter(f_hat_s[:,0],f_hat_s[:,1], c='b', label="Seql cl")
     f_h_b_cl = plt.scatter(f_hat_b[:,0], f_hat_b[:,1], c='r', label="Batch cl")
     plt.title('Batch and sequential: 150 epochs, eta: 0.2')
-    plt.legend(handles=[f_h_s, f_h_b, tr])
+    plt.legend(handles=[f_h_s, f_h_b, f_h_b_cl, f_h_s_cl, tr])
     #fig.savefig('report/plots/2d/first_basic_both_no_CL_output')
 
     plt.show()
