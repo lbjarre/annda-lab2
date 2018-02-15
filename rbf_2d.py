@@ -121,7 +121,7 @@ def clearning(x,mu_cl,t=50,eta=0.2,r=.5):
 def assignment1_ballist():
     train_data, train_labels, test_data, test_labels = loadData()
 
-    no_of_nodes = 5
+    no_of_nodes = 10
 
     mu = []
     ind = np.arange(0,train_data.shape[0])
@@ -137,21 +137,21 @@ def assignment1_ballist():
     eta = 0.2
 
     f_hat_b, W_b = batch_train(train_data, train_labels, mu)
-    f_hat_s, W_s = seq_learn(train_data, train_labels, mu, t, eta)
+    #f_hat_s, W_s = seq_learn(train_data, train_labels, mu, t, eta)
 
-    f_hat_b_cl, W_b_cl = batch_train(train_data, train_labels, mu)
-    f_hat_s_cl, W_s_cl = seq_learn(train_data, train_labels, mu, t, eta)
+    f_hat_b_cl, W_b_cl = batch_train(train_data, train_labels, mu_cl)
+    #_hat_s_cl, W_s_cl = seq_learn(train_data, train_labels, mu_cl, t, eta)
 
     #output space
     fig = plt.figure()
     tr = plt.scatter(train_labels[:,0],train_labels[:,1], c='g', label="true")
-    f_h_s = plt.scatter(f_hat_s[:,0],f_hat_s[:,1], c='b', label="Seql")
+    #f_h_s = plt.scatter(f_hat_s[:,0],f_hat_s[:,1], c='b', label="Seql")
     f_h_b = plt.scatter(f_hat_b[:,0], f_hat_b[:,1], c='r', label="Batch")
-    f_h_s_cl = plt.scatter(f_hat_s[:,0],f_hat_s[:,1], c='b', label="Seql cl")
-    f_h_b_cl = plt.scatter(f_hat_b[:,0], f_hat_b[:,1], c='r', label="Batch cl")
-    plt.title('Batch and sequential: 150 epochs, eta: 0.2')
-    plt.legend(handles=[f_h_s, f_h_b, f_h_b_cl, f_h_s_cl, tr])
-    #fig.savefig('report/plots/2d/first_basic_both_no_CL_output')
+    #f_h_s_cl = plt.scatter(f_hat_s_cl[:,0],f_hat_s_cl[:,1], label="Seql cl")
+    f_h_b_cl = plt.scatter(f_hat_b_cl[:,0], f_hat_b_cl[:,1], label="Batch cl")
+    plt.title('Batch')
+    plt.legend(handles=[f_h_b, f_h_b_cl, tr])
+    fig.savefig('report/plots/2d/first_basic_both_CL_output_batch')
 
     plt.show()
 
@@ -161,8 +161,8 @@ def assignment1_ballist():
     nds = plt.scatter(mu[:,0],mu[:,1], c='b', label="Nodes")
     nds_cl = plt.scatter(mu_cl[:,0],mu_cl[:,1], c='r', label="Nodes CL")
     plt.legend(handles=[train_data, nds, nds_cl])
-    plt.title("Training data and nodes")
-    #fig2.savefig('report/plots/2d/input_basic_both_cl_INPUTAOSHAS')
+    plt.title("Training data and nodes, cl")
+    fig2.savefig('report/plots/2d/input_basic_both_cl')
 
     plt.show()
 
