@@ -172,7 +172,7 @@ def CL_plots(sigma2=0.5):
     epochs = 100#number of epochs
     eta = 0.2 #step size, learning rate
 
-    no_of_nodes = np.arange(2,15,1)
+    no_of_nodes = np.arange(2,5,1)
     tot_errors_cl = []
     tot_errors = []
 
@@ -193,13 +193,14 @@ def CL_plots(sigma2=0.5):
     winners_cl = winner(x,mu_cl)
 
     fig = plt.figure()
-    """
-    tru, = plt.plot(x, f_hat_cl, c="b", label="Estimated")
-    est, = plt.plot(x, label, '--r', label="True")
 
-    nodes = plt.scatter(mu_cl, np.zeros(mu.shape), label="Nodes", s=winners_cl)
-    plt.scatter(mu, np.zeros(mu.shape))
-    plt.legend(handles=[est, tru, nodes])
+    tru, = plt.plot(x, f_hat_cl, c="b", label="Estimated - CL")
+    est, = plt.plot(x, label, '--r', label="True")
+    no_cl, = plt.plot(x, f_hat, 'g', label="No CL")
+
+    nodes = plt.scatter(mu_cl, np.zeros(mu.shape), label="Nodes CL", s=winners_cl)
+    nodes_no = plt.scatter(mu, np.zeros(mu.shape), label="Nodes no CL")
+    plt.legend(handles=[est, no_cl, tru, nodes, nodes_no])
     plt.xlabel('x')
     plt.ylabel('f(x)')
     plt.title('Sin(2x) seq, Sigma = ' + str(sigma2) + ' Epochs: ' + str(epochs) + ' eta: ' + str(eta) + ' Nodes: ' + str(i))
@@ -211,8 +212,8 @@ def CL_plots(sigma2=0.5):
     plt.xlabel('# nodes')
     plt.ylabel('error')
     plt.legend(handles=[CL, NoCL])
-
-    fig.savefig('report/plots/cl/sin2x_batch_error_cl_vs_no_cl')
+    """
+    fig.savefig('report/plots/cl/sin2x_batch_CL_vs_no_cl_plots')
 
     plt.show()
 
