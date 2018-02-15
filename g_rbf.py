@@ -172,7 +172,7 @@ def CL_plots(sigma2=0.5):
     epochs = 100#number of epochs
     eta = 0.2 #step size, learning rate
 
-    no_of_nodes = np.arange(2,5,1)
+    no_of_nodes = np.arange(2,21,1)
     tot_errors_cl = []
     tot_errors = []
 
@@ -181,19 +181,19 @@ def CL_plots(sigma2=0.5):
         mu_copy = np.copy(mu)
         mu_cl = clearning(x, mu_copy, t=50)
         phi_x_cl = phi(x,mu_cl,sigma2).T
-        #f_hat_cl, W, error_cl = seq_learn(x, label, phi_x_cl, epochs, eta)
-        f_hat_cl, W, error_cl = batch_train(x, label, phi_x_cl, sigma2)
+        f_hat_cl, W, error_cl = seq_learn(x, label, phi_x_cl, epochs, eta)
+        #f_hat_cl, W, error_cl = batch_train(x, label, phi_x_cl, sigma2)
 
         phi_x = phi(x,mu,sigma2).T
-        #f_hat, W, error = seq_learn(x, label, phi_x, epochs, eta)
-        f_hat, W, error = batch_train(x, label, phi_x, sigma2)
+        f_hat, W, error = seq_learn(x, label, phi_x, epochs, eta)
+        #f_hat, W, error = batch_train(x, label, phi_x, sigma2)
         tot_errors_cl.append(np.mean(error_cl))
         tot_errors.append(np.mean(error))
 
     winners_cl = winner(x,mu_cl)
 
     fig = plt.figure()
-
+    """
     tru, = plt.plot(x, f_hat_cl, c="b", label="Estimated - CL")
     est, = plt.plot(x, label, '--r', label="True")
     no_cl, = plt.plot(x, f_hat, 'g', label="No CL")
@@ -203,17 +203,20 @@ def CL_plots(sigma2=0.5):
     plt.legend(handles=[est, no_cl, tru, nodes, nodes_no])
     plt.xlabel('x')
     plt.ylabel('f(x)')
-    plt.title('Sin(2x) seq, Sigma = ' + str(sigma2) + ' Epochs: ' + str(epochs) + ' eta: ' + str(eta) + ' Nodes: ' + str(i))
-
     """
-    plt.title('Sin(2x) batch, with noise: Sigma = ' + str(sigma2))
+
+    #plt.title('Sin(2x) seq, Sigma = ' + str(sigma2) + ' Epochs: ' + str(epochs) + ' eta: ' + str(eta) + ' Nodes: ' + str(i))
+
+
+    plt.title('Sin(2x), with noise: Sigma = ' + str(sigma2))
     CL, = plt.plot(no_of_nodes, tot_errors_cl, label="CL")
     NoCL, = plt.plot(no_of_nodes, tot_errors, label="No CL")
     plt.xlabel('# nodes')
     plt.ylabel('error')
     plt.legend(handles=[CL, NoCL])
-    """
-    fig.savefig('report/plots/cl/sin2x_batch_CL_vs_no_cl_plots')
+
+
+    fig.savefig('report/plots/cl/sin2x_seq_CL_vs_no_cl_plots_error')
 
     plt.show()
 
