@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1518616496 "report.tex" "report.pdf" "report" 1518616497
+["pdflatex"] 1518680632 "report.tex" "report.pdf" "report" 1518680633
   "/usr/local/texlive/2017/texmf-dist/fonts/map/fontname/texfonts.map" 1480098670 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1480098701 1324 c910af8c371558dc20f2d7822f66fe64 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmmi12.tfm" 1480098701 1524 4414a8315f39513458b80dfc63bff03a ""
@@ -63,9 +63,9 @@
   "plots/batch/best_square2x.png" 1518614973 31101 a4dfa1af0f356edcee899a948c2b581b ""
   "plots/batch/best_square_cheat.png" 1518616493 32187 3827092ae52077c2ee7f4e380f36b160 ""
   "plots/batch/square_error_sign.png" 1518616380 19046 940458ecf88c3c6d423a5c7f63410e72 ""
-  "report.aux" 1518616497 89 72c2f840f12366b2e99592a26c5a792a ""
-  "report.tex" 1518616339 2112 52b43a2e3b981e2d32b45141619fc031 ""
+  "report.aux" 1518680633 89 72c2f840f12366b2e99592a26c5a792a ""
+  "report.tex" 1518680631 2110 ff6ef696756e4c5c1c41a8cd4921333f ""
   (generated)
-  "report.aux"
-  "report.log"
   "report.pdf"
+  "report.log"
+  "report.aux"

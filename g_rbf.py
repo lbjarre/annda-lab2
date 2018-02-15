@@ -17,7 +17,7 @@ def generateData(fun=0, noise=0,offset=0.05):
         valid_label = signal.square(2*valid)
     label = label + np.random.normal(0,0.1,len(train))*noise
     valid_label = valid_label + np.random.normal(0,0.1,len(train))*noise
-    
+
     return train, valid, label, valid_label
 
 def phi(x,mu,sigma2=0.5):
@@ -46,27 +46,27 @@ def batch_train(x,label,phi_x,sigma2=1):
 def seq_learn(x, label, phi_x, t, eta):
     W = np.random.rand(phi_x.shape[1])*.1
     error = []
-    order = np.arange(x.shape[0])
+    order = np.arange(len(x))
+
+    phi_x_start = np.copy(phi_x)
 
     for j in range(t):
-        order = np.shuffle(order)
+        np.random.shuffle(order)
+        x = x[order].squeeze()
+        label = label[order].squeeze()
+        phi_x = phi_x[order,:].squeeze()
 
-        x = x[order]
-        label = label[order]
-        phi_x = phi_x[order]
-
-        for i in range(len(x)):
+        for i in range(x.shape[0]):
             f_hat = np.dot(W, phi_x[i,:].T)
             e = label[i]-f_hat
             delta_W = eta*e*phi_x[i,:]
             W += delta_W
 
         f_temp = np.dot(W,phi_x.T)
-        tot_err = (f_temp-label).T*(f_temp-label)
-        print(np.mean(tot_err))
+        tot_err = (f_temp-label)**2
         error.append(np.mean(tot_err))
 
-    f = np.dot(W,phi_x.T)
+    f = np.dot(W,phi_x_start.T)
 
     return f, W, error
 
@@ -125,29 +125,94 @@ def batch_plots(sigma2=0.1):
     plt.ylabel('error')
     """
 
-    #fig.savefig('report/plots/noise/noise_batch_sin2x_best')
+    fig.savefig('report/plots/noise/noise_batch_sin2x_best')
 
     plt.show()
 
-def seq_plots(sigma2=1):
+def seq_plots(sigma2=0.5):
     x, valid, label, valid_label = generateData(0, noise=1)
     t = 100 #number of epochs
     eta = 0.2 #step size, learning rate
 
-    no_of_nodes = np.arange(1,11,2)
-    errors = []
+    no_of_nodes = np.arange(2,41,1)
+    tot_errors = []
 
     for i in no_of_nodes:
         #mu = np.random.uniform(low=0, high=np.pi*2, size=(i,))
-        mu = np.linspace(0,2*np.pi,10)
+        mu = np.linspace(0,2*np.pi,i)
         phi_x = phi(x,mu,sigma2).T
         f_hat, W, error = seq_learn(x, label, phi_x, t, eta)
-        errors.append(error)
+        #print(np.mean(error))
+        tot_errors.append(np.mean(error))
 
-    plt.title('Sin(2x), with noise: Sigma = ' + str(sigma2))
+    fig = plt.figure()
+    """
+    plt.title('Sin(2x), with noise: Sigma = ' + str(sigma2) + ' Epochs: ' + str(t) + ' eta: ' + str(eta))
+    plt.plot(no_of_nodes, tot_errors)
     plt.xlabel('# nodes')
     plt.ylabel('error')
+    fig.savefig('report/plots/noise/noise_seq_sin2x_error_'+str(t)+'ep')
+    """
+    tru, = plt.plot(x,f_hat, c="b", label="Estimated")
+    est, = plt.plot(x,label, '--r', label="True")
+
+    nodes = plt.scatter(mu, np.zeros(mu.shape), label="Nodes")
+    plt.legend(handles=[est, tru, nodes])
+    plt.xlabel('x')
+    plt.ylabel('f(x)')
+
+    plt.title('Best sin(2x), with noise: Sigma = ' + str(sigma2) + ' Epochs: ' + str(t) + ' eta: ' + str(eta) + ' Nodes: ' + str(i))
+
+    #fig.savefig('report/plots/noise/noise_resistant_sin2x_seq')
+
     plt.show()
+
+def CL_plots(sigma2=0.5):
+    x, valid, label, valid_label = generateData(0, noise=1)
+    t = 20#number of epochs
+    eta = 0.2 #step size, learning rate
+
+    no_of_nodes = np.arange(2,20,1)
+    tot_errors_cl = []
+    tot_errors = []
+
+    for i in no_of_nodes:
+        mu = np.linspace(0,2*np.pi,i)
+        mu_cl = clearning(x,mu)
+        phi_x_cl = phi(x,mu_cl,sigma2).T
+        f_hat_cl, W, error_cl = seq_learn(x, label, phi_x_cl, t, eta)
+
+        phi_x = phi(x,mu,sigma2).T
+        f_hat, W, error = seq_learn(x, label, phi_x, t, eta)
+        tot_errors_cl.append(np.mean(error_cl))
+        tot_errors.append(np.mean(error))
+
+
+    winners_cl = winner(x,mu_cl)
+
+    fig = plt.figure()
+    """
+    tru, = plt.plot(x,f_hat, c="b", label="Estimated")
+    est, = plt.plot(x,label, '--r', label="True")
+
+    nodes = plt.scatter(mu, np.zeros(mu.shape), label="Nodes",s=winners_cl)
+    plt.legend(handles=[est, tru, nodes])
+    plt.xlabel('x')
+    plt.ylabel('f(x)')
+
+    plt.title('Best sin(2x), with noise: Sigma = ' + str(sigma2) + ' Epochs: ' + str(t) + ' eta: ' + str(eta) + ' Nodes: ' + str(i))
+    """
+    plt.title('Sin(2x), with noise: Sigma = ' + str(sigma2) + ' Epochs: ' + str(t) + ' eta: ' + str(eta))
+    CL, = plt.plot(no_of_nodes, tot_errors, label="No CL")
+    NoCL, = plt.plot(no_of_nodes, tot_errors_cl, label="CL")
+    plt.xlabel('# nodes')
+    plt.ylabel('error')
+    plt.legend(handles=[CL, NoCL])
+
+    fig.savefig('report/plots/cl/sin2x_seq'+str(t)+'ep')
+
+    plt.show()
+
 
 def assignment1():
     x, valid, label = generateData()
@@ -230,7 +295,10 @@ def assignment1():
     #plt.show()
 
 
+
+
 if __name__ == "__main__":
     #assignment1()
     #batch_plots()
-    seq_plots()
+    #seq_plots()
+    CL_plots()
