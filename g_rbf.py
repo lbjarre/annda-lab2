@@ -76,10 +76,10 @@ def dist_(x, W, r=.5):
     in_radius = np.abs(d-np.min(d)).T<r
     return d, in_radius
 
-def clearning(x,mu_cl,t=50,eta=0.2):
+def clearning(x,mu_cl,t=50,eta=0.2,r=.5):
     for i in range(t):
         x_samp = np.random.choice(x)
-        d, in_radius = dist_(x_samp,mu_cl,r=1)
+        d, in_radius = dist_(x_samp,mu_cl,r=r)
         mu_cl += eta*np.multiply(in_radius,x_samp-mu_cl)
     return mu_cl
 
@@ -179,7 +179,7 @@ def CL_plots(sigma2=0.5):
     for i in no_of_nodes:
         mu = np.linspace(0,2*np.pi,i)
         mu_copy = np.copy(mu)
-        mu_cl = clearning(x, mu_copy, t=50)
+        mu_cl = clearning(x, mu_copy, t=50,r=0.01)
         phi_x_cl = phi(x,mu_cl,sigma2).T
         f_hat_cl, W, error_cl = seq_learn(x, label, phi_x_cl, epochs, eta)
         #f_hat_cl, W, error_cl = batch_train(x, label, phi_x_cl, sigma2)
@@ -203,11 +203,9 @@ def CL_plots(sigma2=0.5):
     plt.legend(handles=[est, no_cl, tru, nodes, nodes_no])
     plt.xlabel('x')
     plt.ylabel('f(x)')
+
+    plt.title('Sin(2x) seq, Sigma = ' + str(sigma2) + ' Epochs: ' + str(epochs) + ' eta: ' + str(eta) + ' Nodes: ' + str(i))
     """
-
-    #plt.title('Sin(2x) seq, Sigma = ' + str(sigma2) + ' Epochs: ' + str(epochs) + ' eta: ' + str(eta) + ' Nodes: ' + str(i))
-
-
     plt.title('Sin(2x), with noise: Sigma = ' + str(sigma2))
     CL, = plt.plot(no_of_nodes, tot_errors_cl, label="CL")
     NoCL, = plt.plot(no_of_nodes, tot_errors, label="No CL")
@@ -215,8 +213,7 @@ def CL_plots(sigma2=0.5):
     plt.ylabel('error')
     plt.legend(handles=[CL, NoCL])
 
-
-    fig.savefig('report/plots/cl/sin2x_seq_CL_vs_no_cl_plots_error')
+    fig.savefig('report/plots/cl/sin2x_seq_CL_vs_no_cl_plots_dead_units_error')
 
     plt.show()
 
