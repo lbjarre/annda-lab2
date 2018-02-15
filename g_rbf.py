@@ -167,9 +167,9 @@ def seq_plots(sigma2=0.5):
 
     plt.show()
 
-def CL_plots(sigma2=0.2):
+def CL_plots(sigma2=0.5):
     x, valid, label, valid_label = generateData(0, noise=1)
-    epochs = 50#number of epochs
+    epochs = 100#number of epochs
     eta = 0.2 #step size, learning rate
 
     no_of_nodes = np.arange(2,15,1)
@@ -202,12 +202,10 @@ def CL_plots(sigma2=0.2):
     plt.legend(handles=[est, tru, nodes])
     plt.xlabel('x')
     plt.ylabel('f(x)')
-
     plt.title('Sin(2x) seq, Sigma = ' + str(sigma2) + ' Epochs: ' + str(epochs) + ' eta: ' + str(eta) + ' Nodes: ' + str(i))
 
-
     """
-    plt.title('Sin(2x) batch, with noise: Sigma = ' + str(sigma2) + ' Number of nodes: ' + str(i))
+    plt.title('Sin(2x) batch, with noise: Sigma = ' + str(sigma2))
     CL, = plt.plot(no_of_nodes, tot_errors_cl, label="CL")
     NoCL, = plt.plot(no_of_nodes, tot_errors, label="No CL")
     plt.xlabel('# nodes')
