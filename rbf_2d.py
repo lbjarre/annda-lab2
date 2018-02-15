@@ -158,7 +158,7 @@ def assignment1_ballist():
     #f_h_b = plt.scatter(f_hat_b[:,0], f_hat_b[:,1], c='r', label="Batch")
     f_h_s_cl = plt.scatter(f_test_s_cl[:,0],f_hat_s_cl[:,1], label="Seq cl")
     #f_h_b_cl = plt.scatter(f_hat_b_cl[:,0], f_hat_b_cl[:,1], label="Batch cl")
-    plt.title('Sequential' + ' eta: '+ str(eta) + "epochs: " + str(t))
+    plt.title('Test data: Sequential' + ' eta: '+ str(eta) + "epochs: " + str(t))
     plt.legend(handles=[f_h_s, f_h_s_cl, tr])
     fig.savefig('report/plots/2d/first_basic_both_CL_output_seq_test')
 
@@ -170,7 +170,7 @@ def assignment1_ballist():
     nds = plt.scatter(mu[:,0],mu[:,1], c='b', label="Nodes")
     nds_cl = plt.scatter(mu_cl[:,0],mu_cl[:,1], c='r', label="Nodes CL")
     plt.legend(handles=[train_data, nds, nds_cl])
-    plt.title("Training data and nodes, cl")
+    plt.title("Test data and nodes, cl")
     fig2.savefig('report/plots/2d/input_basic_both_cl_seq_test')
 
     plt.show()
