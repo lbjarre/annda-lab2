@@ -136,33 +136,42 @@ def assignment1_ballist():
     t = 300
     eta = 0.1
 
-    #f_hat_b, W_b = batch_train(train_data, train_labels, mu)
+    f_hat_b, W_b = batch_train(train_data, train_labels, mu)
     f_hat_s, W_s = seq_learn(train_data, train_labels, mu, t, eta)
 
-    #f_hat_b_cl, W_b_cl = batch_train(train_data, train_labels, mu_cl)
+    f_hat_b_cl, W_b_cl = batch_train(train_data, train_labels, mu_cl)
     f_hat_s_cl, W_s_cl = seq_learn(train_data, train_labels, mu_cl, t, eta)
+
+
+    phi_test_cl = phi(test_data, mu_cl)
+    phi_test = phi(test_data, mu)
+
+    f_test_s_cl = np.dot(phi_test_cl, W_s_cl)
+    f_test_b_cl = np.dot(phi_test_cl, W_b_cl)
+    f_test_s = np.dot(phi_test, W_s)
+    f_test_b = np.dot(phi_test, W_b)
 
     #output space
     fig = plt.figure()
-    tr = plt.scatter(train_labels[:,0],train_labels[:,1], c='g', label="true")
-    f_h_s = plt.scatter(f_hat_s[:,0],f_hat_s[:,1], c='b', label="Seq")
+    tr = plt.scatter(test_labels[:,0],test_labels[:,1], c='g', label="true")
+    f_h_s = plt.scatter(f_test_s[:,0],f_hat_s[:,1], c='b', label="Seq")
     #f_h_b = plt.scatter(f_hat_b[:,0], f_hat_b[:,1], c='r', label="Batch")
-    f_h_s_cl = plt.scatter(f_hat_s_cl[:,0],f_hat_s_cl[:,1], label="Seq cl")
+    f_h_s_cl = plt.scatter(f_test_s_cl[:,0],f_hat_s_cl[:,1], label="Seq cl")
     #f_h_b_cl = plt.scatter(f_hat_b_cl[:,0], f_hat_b_cl[:,1], label="Batch cl")
     plt.title('Sequential' + ' eta: '+ str(eta) + "epochs: " + str(t))
     plt.legend(handles=[f_h_s, f_h_s_cl, tr])
-    fig.savefig('report/plots/2d/first_basic_both_CL_output_seq')
+    fig.savefig('report/plots/2d/first_basic_both_CL_output_seq_test')
 
     plt.show()
 
     #input space
     fig2 = plt.figure()
-    train_data = plt.scatter(train_data[:,0],train_data[:,1], c='g', label="data")
+    train_data = plt.scatter(test_data[:,0],test_data[:,1], c='g', label="test data")
     nds = plt.scatter(mu[:,0],mu[:,1], c='b', label="Nodes")
     nds_cl = plt.scatter(mu_cl[:,0],mu_cl[:,1], c='r', label="Nodes CL")
     plt.legend(handles=[train_data, nds, nds_cl])
     plt.title("Training data and nodes, cl")
-    fig2.savefig('report/plots/2d/input_basic_both_cl_seq')
+    fig2.savefig('report/plots/2d/input_basic_both_cl_seq_test')
 
     plt.show()
 
