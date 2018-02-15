@@ -110,14 +110,25 @@ def assignment1_ballist():
     f_hat_b, W_b = batch_train(train_data, train_labels, mu)
     f_hat_s, W_s = seq_learn(train_data, train_labels, mu, t, eta)
 
+    #output space
     fig = plt.figure()
     tr = plt.scatter(train_labels[:,0],train_labels[:,1], c='g', label="true")
     f_h_s = plt.scatter(f_hat_s[:,0],f_hat_s[:,1], c='b', label="Seql")
     f_h_b = plt.scatter(f_hat_b[:,0], f_hat_b[:,1], c='r', label="Batch")
-
     plt.title('Batch and sequential: 150 epochs, eta: 0.2')
     plt.legend(handles=[f_h_s, f_h_b, tr])
-    fig.savefig('report/plots/2d/first_basic_both_no_CL')
+    fig.savefig('report/plots/2d/first_basic_both_no_CL_output')
+
+    plt.show()
+
+    #input space
+    fig2 = plt.figure()
+    train_data = plt.scatter(train_data[:,0],train_data[:,1], c='g', label="data")
+    nds = plt.scatter(mu[:,0],mu[:,1], c='b', label="Nodes")
+    plt.legend(handles=[train_data, nds])
+    plt.title("Training data and nodes")
+    fig2.savefig('report/plots/2d/input_basic_both_no_cl')
+
     plt.show()
 
 
