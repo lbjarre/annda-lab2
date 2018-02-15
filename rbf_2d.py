@@ -154,13 +154,13 @@ def assignment1_ballist():
     #output space
     fig = plt.figure()
     tr = plt.scatter(test_labels[:,0],test_labels[:,1], c='g', label="true")
-    #f_h_s = plt.scatter(f_test_s[:,0],f_test_s[:,1], c='b', label="Seq")
-    f_h_b = plt.scatter(f_test_b[:,0], f_test_b[:,1], c='r', label="Batch")
-    #f_h_s_cl = plt.scatter(f_test_s_cl[:,0],f_test_s_cl[:,1], label="Seq cl")
-    f_h_b_cl = plt.scatter(f_test_b_cl[:,0], f_test_b_cl[:,1], label="Batch cl")
-    plt.title('Test data: Batch - nodes: 10')
-    plt.legend(handles=[f_h_b, f_h_b_cl, tr])
-    fig.savefig('report/plots/2d/first_basic_both_CL_output_batch_test')
+    f_h_s = plt.scatter(f_test_s[:,0],f_test_s[:,1], c='b', label="Seq")
+    #f_h_b = plt.scatter(f_test_b[:,0], f_test_b[:,1], c='r', label="Batch")
+    f_h_s_cl = plt.scatter(f_test_s_cl[:,0],f_test_s_cl[:,1], label="Seq cl")
+    #f_h_b_cl = plt.scatter(f_test_b_cl[:,0], f_test_b_cl[:,1], label="Batch cl")
+    plt.title('Test data: Seq - nodes: 10')
+    plt.legend(handles=[f_h_s, f_h_s_cl, tr])
+    fig.savefig('report/plots/2d/first_basic_both_CL_output_seq_test')
 
     plt.show()
 
@@ -171,7 +171,7 @@ def assignment1_ballist():
     nds_cl = plt.scatter(mu_cl[:,0],mu_cl[:,1], c='r', label="Nodes CL")
     plt.legend(handles=[train_data, nds, nds_cl])
     plt.title("Test data and nodes, cl - nodes: 10")
-    fig2.savefig('report/plots/2d/input_basic_both_cl_batch_test')
+    fig2.savefig('report/plots/2d/input_basic_both_cl_seq_test')
 
     plt.show()
 
