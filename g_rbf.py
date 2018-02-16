@@ -98,13 +98,17 @@ def batch_plots(sigma2=.05):
 
     no_of_nodes = np.arange(1,21,1)
     errors = []
+    test_error = []
 
     for i in no_of_nodes:
         #mu = np.random.uniform(low=0, high=np.pi*2, size=(i,))
         mu = np.linspace(0,2*np.pi,i)
         phi_x = phi(x,mu,sigma2).T
         f_hat_b, W_b, error = batch_train(x, label, phi_x)
+        phi_test = phi(valid, mu, sigma2)
+        f_test = np.dot(W_b, phi_test)
         errors.append(error)
+        test_error.append(np.mean(f_test-valid_label))
 
     phi_test = phi(valid, mu, sigma2)
 
@@ -121,15 +125,21 @@ def batch_plots(sigma2=.05):
     plt.legend(handles=[train, test, true, nodes, ])
     plt.xlabel('x')
     plt.ylabel('f(x)')
+    plt.title('Test data: Batch: Sin(2x), with noise: Sigma = ' + str(sigma2) + " Nodes: " + str(i))
+    #fig.savefig('report/plots/batch/batch_sin2x_sharp_test')
 
-    """
-    plt.semilogy(no_of_nodes, errors)
+    plt.show()
+
+    fig2 = figure()
+
+    tra = plt.plot(no_of_nodes, errors, label="training")
+    test_er = plt.plot(no_of_nodes, test_error, label="test")
     plt.title('Sin(2x), with noise: Sigma = ' + str(sigma2))
     plt.xlabel('# nodes')
     plt.ylabel('error')
-    """
-    plt.title('Test data: Batch: Sin(2x), with noise: Sigma = ' + str(sigma2) + " Nodes: " + str(i))
-    fig.savefig('report/plots/batch/batch_sin2x_sharp_test')
+    plt.legend(handles=[tra, test_er])
+
+    #fig.savefig('report/plots/batch/batch_sin2x_sharp_test_error')
 
     plt.show()
 
