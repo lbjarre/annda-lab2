@@ -106,15 +106,19 @@ def batch_plots(sigma2=.05):
         f_hat_b, W_b, error = batch_train(x, label, phi_x)
         errors.append(error)
 
+    phi_test = phi(valid, mu, sigma2)
+
+    f_test = np.dot(W_b, phi_test)
     #print(errors)
 
     fig = plt.figure()
 
-    tru, = plt.plot(x,f_hat_b, c="b", label="Estimated")
-    est, = plt.plot(x,label, '--r', label="True")
+    train, = plt.plot(x,f_hat_b, c="b", label="Training")
+    true, = plt.plot(x,label, '--r', label="True")
+    test, = plt.plot(valid, f_test, label="Test")
 
     nodes = plt.scatter(mu, np.zeros(mu.shape), label="Nodes")
-    plt.legend(handles=[est, tru, nodes])
+    plt.legend(handles=[train, test, true, nodes, ])
     plt.xlabel('x')
     plt.ylabel('f(x)')
 
@@ -124,8 +128,8 @@ def batch_plots(sigma2=.05):
     plt.xlabel('# nodes')
     plt.ylabel('error')
     """
-    plt.title('Batch: Sin(2x), with noise: Sigma = ' + str(sigma2) + " Nodes: " + str(i))
-    fig.savefig('report/plots/noise/noise_batch_sin2x_sharp')
+    plt.title('Test data: Batch: Sin(2x), with noise: Sigma = ' + str(sigma2) + " Nodes: " + str(i))
+    fig.savefig('report/plots/batch/batch_sin2x_sharp_test')
 
     plt.show()
 
@@ -213,7 +217,7 @@ def CL_plots(sigma2=0.5):
     plt.ylabel('error')
     plt.legend(handles=[CL, NoCL])
 
-    fig.savefig('report/plots/cl/sin2x_seq_CL_vs_no_cl_plots_dead_units_error')
+    fig.savefig('report/plots/cl/')
 
     plt.show()
 
@@ -303,6 +307,6 @@ def assignment1():
 
 if __name__ == "__main__":
     #assignment1()
-    #batch_plots()
+    batch_plots()
     #seq_plots()
-    CL_plots()
+    #CL_plots()
