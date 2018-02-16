@@ -93,10 +93,10 @@ def winner(x,mu,fac=10):
 
     return wins
 
-def batch_plots(sigma2=.05):
+def batch_plots(sigma2=1):
     x, valid, label, valid_label = generateData(fun=0, noise=1)
 
-    no_of_nodes = np.arange(1,21,1)
+    no_of_nodes = np.arange(1,16,1)
     errors = []
     test_error = []
 
@@ -108,7 +108,7 @@ def batch_plots(sigma2=.05):
         phi_test = phi(valid, mu, sigma2)
         f_test = np.dot(W_b, phi_test)
         errors.append(error)
-        test_error.append(np.mean(f_test-valid_label))
+        test_error.append(np.mean((f_test-valid_label)**2))
 
     phi_test = phi(valid, mu, sigma2)
 
@@ -130,16 +130,16 @@ def batch_plots(sigma2=.05):
 
     plt.show()
 
-    fig2 = figure()
+    fig2 = plt.figure()
 
-    tra = plt.plot(no_of_nodes, errors, label="training")
-    test_er = plt.plot(no_of_nodes, test_error, label="test")
+    tra, = plt.plot(no_of_nodes, errors, label="training")
+    test_er, = plt.plot(no_of_nodes, test_error, label="test")
     plt.title('Sin(2x), with noise: Sigma = ' + str(sigma2))
     plt.xlabel('# nodes')
     plt.ylabel('error')
     plt.legend(handles=[tra, test_er])
 
-    #fig.savefig('report/plots/batch/batch_sin2x_sharp_test_error')
+    fig2.savefig('report/plots/batch/batch_sin2x_sharp_test_error')
 
     plt.show()
 
