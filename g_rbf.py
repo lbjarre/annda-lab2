@@ -94,7 +94,7 @@ def winner(x,mu,fac=10):
     return wins
 
 def batch_plots(sigma2=1):
-    x, valid, label, valid_label = generateData(fun=0, noise=1)
+    x, valid, label, valid_label = generateData(fun=1, noise=0)
 
     no_of_nodes = np.arange(1,16,1)
     errors = []
@@ -126,7 +126,7 @@ def batch_plots(sigma2=1):
     plt.xlabel('x')
     plt.ylabel('f(x)')
     plt.title('Test data: Batch: Sin(2x), with noise: Sigma = ' + str(sigma2) + " Nodes: " + str(i))
-    #fig.savefig('report/plots/batch/batch_sin2x_sharp_test')
+    fig.savefig('report/plots/batch/batch_square2x_sharp_test')
 
     plt.show()
 
@@ -139,7 +139,7 @@ def batch_plots(sigma2=1):
     plt.ylabel('error')
     plt.legend(handles=[tra, test_er])
 
-    fig2.savefig('report/plots/batch/batch_sin2x_sharp_test_error')
+    fig2.savefig('report/plots/batch/batch_square2x_sharp_test_error')
 
     plt.show()
 
@@ -329,6 +329,6 @@ def assignment1():
 
 if __name__ == "__main__":
     #assignment1()
-    #batch_plots()
-    seq_plots()
+    batch_plots()
+    #seq_plots()
     #CL_plots()
