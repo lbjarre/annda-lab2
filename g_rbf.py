@@ -150,6 +150,7 @@ def seq_plots(sigma2=0.5):
 
     no_of_nodes = np.arange(2,41,1)
     tot_errors = []
+    test_error = []
 
     for i in no_of_nodes:
         #mu = np.random.uniform(low=0, high=np.pi*2, size=(i,))
@@ -159,25 +160,36 @@ def seq_plots(sigma2=0.5):
         #print(np.mean(error))
         tot_errors.append(np.mean(error))
 
+        phi_test = phi(valid, mu, sigma2)
+        f_test = np.dot(W, phi_test)
+        test_error.append(np.mean((f_test-valid_label)**2))
+
     fig = plt.figure()
-    """
+
     plt.title('Sin(2x), with noise: Sigma = ' + str(sigma2) + ' Epochs: ' + str(t) + ' eta: ' + str(eta))
-    plt.plot(no_of_nodes, tot_errors)
+    train_plot, = plt.plot(no_of_nodes, tot_errors, label="Training Err")
+    test_plot, = plt.plot(no_of_nodes, test_error, label="Test Err")
     plt.xlabel('# nodes')
     plt.ylabel('error')
-    fig.savefig('report/plots/noise/noise_seq_sin2x_error_'+str(t)+'ep')
-    """
-    tru, = plt.plot(x,f_hat, c="b", label="Estimated")
-    est, = plt.plot(x,label, '--r', label="True")
+    plt.legend(handles=[train_plot, test_plot])
+
+    fig.savefig('report/plots/noise/noise_seq_sin2x_error_'+str(t)+'ep_test')
+
+    plt.show()
+
+    fig2 = plt.figure()
+    est, = plt.plot(x, f_hat, c="b", label="Estimated")
+    tru, = plt.plot(x, label, '--r', label="True")
+    test, = plt.plot(valid, f_test, label="Test")
 
     nodes = plt.scatter(mu, np.zeros(mu.shape), label="Nodes")
-    plt.legend(handles=[est, tru, nodes])
+    plt.legend(handles=[est,test, tru, nodes])
     plt.xlabel('x')
     plt.ylabel('f(x)')
 
-    plt.title('Best sin(2x), with noise: Sigma = ' + str(sigma2) + ' Epochs: ' + str(t) + ' eta: ' + str(eta) + ' Nodes: ' + str(i))
+    plt.title('Sin(2x), with noise: Sigma = ' + str(sigma2) + ' Epochs: ' + str(t) + ' eta: ' + str(eta) + ' Nodes: ' + str(i))
 
-    #fig.savefig('report/plots/noise/noise_resistant_sin2x_seq')
+    fig2.savefig('report/plots/noise/noise_resistant_sin2x_seq_test')
 
     plt.show()
 
@@ -317,6 +329,6 @@ def assignment1():
 
 if __name__ == "__main__":
     #assignment1()
-    batch_plots()
-    #seq_plots()
+    #batch_plots()
+    seq_plots()
     #CL_plots()
