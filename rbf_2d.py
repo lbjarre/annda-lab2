@@ -56,7 +56,7 @@ def initMu(x, mu, t=20, eta=0.2, n=10,rad=1):
 
     return mu
 
-def phi(x,mu,sigma2=0.25):
+def phi(x,mu,sigma2=0.35):
     temp = []
     for i in range(len(mu)):
         phi = np.exp(np.sum(-(x-mu[i])**2/(2*sigma2),1))
@@ -159,7 +159,11 @@ def assignment1_ballist():
     #f_h_b_cl = plt.scatter(f_test_b_cl[:,0], f_test_b_cl[:,1], label="Batch cl")
     plt.title('Train data: Seq - nodes: 20')
     plt.legend(handles=[f_h_s, f_h_s_cl, tr])
+<<<<<<< HEAD
     fig.savefig('report/plots/2d/first_basic_both_CL_output_seq_train_20')
+=======
+    fig.savefig('report/plots/2d/first_basic_both_CL_output_seq_test_20_sigma25')
+>>>>>>> 428ce035b9d1b5470c31b9a44f9d7c1287ec97f5
 
     plt.show()
 
@@ -169,8 +173,13 @@ def assignment1_ballist():
     nds = plt.scatter(mu[:,0],mu[:,1], c='b', label="Nodes")
     nds_cl = plt.scatter(mu_cl[:,0],mu_cl[:,1], c='r', label="Nodes CL")
     plt.legend(handles=[train_data, nds, nds_cl])
+<<<<<<< HEAD
     plt.title("Train data and nodes, cl - nodes: 20")
     fig2.savefig('report/plots/2d/input_basic_both_cl_seq_train_20')
+=======
+    plt.title("Test data and nodes, cl - nodes: 20")
+    fig2.savefig('report/plots/2d/input_basic_both_cl_seq_test_20_sigma25')
+>>>>>>> 428ce035b9d1b5470c31b9a44f9d7c1287ec97f5
 
     plt.show()
 
