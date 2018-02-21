@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.9.11)  15 FEB 2018 08:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.9.11)  21 FEB 2018 14:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -398,21 +398,24 @@ Package caption3 Info: TeX engine: e-TeX on input line 67.
 \c@subfigure=\count89
 \c@subtable=\count90
 )
+(/usr/local/texlive/2017/texmf-dist/tex/latex/placeins/placeins.sty
+Package: placeins 2005/04/18  v 2.2
+)
 (./report.aux)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
 
 (/usr/local/texlive/2017/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -479,107 +482,250 @@ e
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 13.
+(Font)              <12> on input line 14.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 13.
+(Font)              <8> on input line 14.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 13.
+(Font)              <6> on input line 14.
 
 [1
 
 {/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 20.
+(Font)              <7> on input line 21.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 20.
+(Font)              <5> on input line 21.
 
-<plots/batch/batch_error_sin2x.png, id=9, 462.528pt x 346.896pt>
-File: plots/batch/batch_error_sin2x.png Graphic file (type png)
-
-<use plots/batch/batch_error_sin2x.png>
-Package pdftex.def Info: plots/batch/batch_error_sin2x.png used on input line 3
-3.
-(pdftex.def)             Requested size: 137.9979pt x 103.49792pt.
-
-<plots/batch/batch_error_square2x.png, id=11, 462.528pt x 346.896pt>
-File: plots/batch/batch_error_square2x.png Graphic file (type png)
-
-<use plots/batch/batch_error_square2x.png>
-Package pdftex.def Info: plots/batch/batch_error_square2x.png used on input lin
-e 38.
-(pdftex.def)             Requested size: 137.9979pt x 103.49792pt.
-
-<plots/batch/batch_error_sin2x_log.png, id=12, 462.528pt x 346.896pt>
-File: plots/batch/batch_error_sin2x_log.png Graphic file (type png)
-
-<use plots/batch/batch_error_sin2x_log.png>
-Package pdftex.def Info: plots/batch/batch_error_sin2x_log.png used on input li
-ne 43.
-(pdftex.def)             Requested size: 137.9979pt x 103.49792pt.
-
-<plots/batch/batch_error_square2x_log.png, id=13, 462.528pt x 346.896pt>
-File: plots/batch/batch_error_square2x_log.png Graphic file (type png)
-
-<use plots/batch/batch_error_square2x_log.png>
-Package pdftex.def Info: plots/batch/batch_error_square2x_log.png used on input
- line 47.
-(pdftex.def)             Requested size: 137.9979pt x 103.49792pt.
-
-<plots/batch/best_sin2x.png, id=14, 462.528pt x 346.896pt>
+<plots/batch/best_sin2x.png, id=9, 462.528pt x 346.896pt>
 File: plots/batch/best_sin2x.png Graphic file (type png)
 
 <use plots/batch/best_sin2x.png>
-Package pdftex.def Info: plots/batch/best_sin2x.png used on input line 52.
+Package pdftex.def Info: plots/batch/best_sin2x.png used on input line 36.
 (pdftex.def)             Requested size: 137.9979pt x 103.49792pt.
 
-<plots/batch/best_square2x.png, id=15, 462.528pt x 346.896pt>
+<plots/batch/best_sin2x_error.png, id=11, 462.528pt x 346.896pt>
+File: plots/batch/best_sin2x_error.png Graphic file (type png)
+
+<use plots/batch/best_sin2x_error.png>
+Package pdftex.def Info: plots/batch/best_sin2x_error.png used on input line 41
+.
+(pdftex.def)             Requested size: 137.9979pt x 103.49792pt.
+
+<plots/batch/best_square2x.png, id=12, 462.528pt x 346.896pt>
 File: plots/batch/best_square2x.png Graphic file (type png)
 
 <use plots/batch/best_square2x.png>
-Package pdftex.def Info: plots/batch/best_square2x.png used on input line 56.
+Package pdftex.def Info: plots/batch/best_square2x.png used on input line 45.
 (pdftex.def)             Requested size: 137.9979pt x 103.49792pt.
 
-<plots/batch/best_square_cheat.png, id=16, 462.528pt x 346.896pt>
+<plots/batch/best_square2x_error.png, id=13, 462.528pt x 346.896pt>
+File: plots/batch/best_square2x_error.png Graphic file (type png)
+
+<use plots/batch/best_square2x_error.png>
+Package pdftex.def Info: plots/batch/best_square2x_error.png used on input line
+ 50.
+(pdftex.def)             Requested size: 137.9979pt x 103.49792pt.
+
+<plots/batch/best_square2x_extreme.png, id=14, 462.528pt x 346.896pt>
+File: plots/batch/best_square2x_extreme.png Graphic file (type png)
+
+<use plots/batch/best_square2x_extreme.png>
+Package pdftex.def Info: plots/batch/best_square2x_extreme.png used on input li
+ne 57.
+(pdftex.def)             Requested size: 172.5pt x 129.37639pt.
+
+<plots/batch/best_square_cheat.png, id=15, 462.528pt x 346.896pt>
 File: plots/batch/best_square_cheat.png Graphic file (type png)
 
 <use plots/batch/best_square_cheat.png>
 Package pdftex.def Info: plots/batch/best_square_cheat.png used on input line 6
-5.
+8.
 (pdftex.def)             Requested size: 137.9979pt x 103.49792pt.
 
-<plots/batch/square_error_sign.png, id=17, 462.528pt x 346.896pt>
+<plots/batch/square_error_sign.png, id=16, 462.528pt x 346.896pt>
 File: plots/batch/square_error_sign.png Graphic file (type png)
 
 <use plots/batch/square_error_sign.png>
 Package pdftex.def Info: plots/batch/square_error_sign.png used on input line 7
-0.
+3.
 (pdftex.def)             Requested size: 137.9979pt x 103.49792pt.
- [2 <./plots/batch/batch_error_sin2x.png> <./plots/batch/batch_error_square2x.p
-ng> <./plots/batch/batch_error_sin2x_log.png> <./plots/batch/batch_error_square
-2x_log.png> <./plots/batch/best_sin2x.png> <./plots/batch/best_square2x.png>] [
-3 <./plots/batch/best_square_cheat.png> <./plots/batch/square_error_sign.png>] 
-(./report.aux) ) 
-Here is how much of TeX's memory you used:
- 2973 strings out of 492995
- 46017 string characters out of 6132704
- 105986 words of memory out of 5000000
- 6499 multiletter control sequences out of 15000+600000
- 7579 words of font info for 27 fonts, out of 8000000 for 9000
- 1141 hyphenation exceptions out of 8191
- 42i,7n,40p,250b,444s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmbx12.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmmi10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmmi7.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmr10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-r12.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr1
-7.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.p
-fb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb>
+ [2 <./plots/batch/best_sin2x.png> <./plots/batch/best_sin2x_error.png> <./plot
+s/batch/best_square2x.png> <./plots/batch/best_square2x_error.png>]
+<plots/noise/batch_sin2x_sigma1.png, id=30, 462.528pt x 346.896pt>
+File: plots/noise/batch_sin2x_sigma1.png Graphic file (type png)
 
-Output written on report.pdf (3 pages, 241119 bytes).
+<use plots/noise/batch_sin2x_sigma1.png>
+Package pdftex.def Info: plots/noise/batch_sin2x_sigma1.png used on input line 
+87.
+(pdftex.def)             Requested size: 137.9979pt x 103.49792pt.
+
+<plots/noise/batch_sin2x_error_sigma1.png, id=31, 462.528pt x 346.896pt>
+File: plots/noise/batch_sin2x_error_sigma1.png Graphic file (type png)
+
+<use plots/noise/batch_sin2x_error_sigma1.png>
+Package pdftex.def Info: plots/noise/batch_sin2x_error_sigma1.png used on input
+ line 92.
+(pdftex.def)             Requested size: 137.9979pt x 103.49792pt.
+
+<plots/noise/batch_sin2x_sigma_002.png, id=32, 462.528pt x 346.896pt>
+File: plots/noise/batch_sin2x_sigma_002.png Graphic file (type png)
+
+<use plots/noise/batch_sin2x_sigma_002.png>
+Package pdftex.def Info: plots/noise/batch_sin2x_sigma_002.png used on input li
+ne 96.
+(pdftex.def)             Requested size: 137.9979pt x 103.49792pt.
+
+<plots/noise/batch_sin2x_error_sigma_002.png, id=33, 462.528pt x 346.896pt>
+File: plots/noise/batch_sin2x_error_sigma_002.png Graphic file (type png)
+
+<use plots/noise/batch_sin2x_error_sigma_002.png>
+Package pdftex.def Info: plots/noise/batch_sin2x_error_sigma_002.png used on in
+put line 101.
+(pdftex.def)             Requested size: 137.9979pt x 103.49792pt.
+
+<plots/noise/seq_sin2x_100ep_sigma1.png, id=34, 462.528pt x 346.896pt>
+File: plots/noise/seq_sin2x_100ep_sigma1.png Graphic file (type png)
+
+<use plots/noise/seq_sin2x_100ep_sigma1.png>
+Package pdftex.def Info: plots/noise/seq_sin2x_100ep_sigma1.png used on input l
+ine 112.
+(pdftex.def)             Requested size: 137.9979pt x 103.49792pt.
+
+<plots/noise/seq_sin2x_100ep_sigma1_error.png, id=35, 462.528pt x 346.896pt>
+File: plots/noise/seq_sin2x_100ep_sigma1_error.png Graphic file (type png)
+
+<use plots/noise/seq_sin2x_100ep_sigma1_error.png>
+Package pdftex.def Info: plots/noise/seq_sin2x_100ep_sigma1_error.png used on i
+nput line 117.
+(pdftex.def)             Requested size: 137.9979pt x 103.49792pt.
+
+<plots/noise/seq_sin2x_100ep_sigma002.png, id=36, 462.528pt x 346.896pt>
+File: plots/noise/seq_sin2x_100ep_sigma002.png Graphic file (type png)
+
+<use plots/noise/seq_sin2x_100ep_sigma002.png>
+Package pdftex.def Info: plots/noise/seq_sin2x_100ep_sigma002.png used on input
+ line 121.
+(pdftex.def)             Requested size: 137.9979pt x 103.49792pt.
+
+<plots/noise/seq_sin2x_100ep_sigma002_error.png, id=37, 462.528pt x 346.896pt>
+File: plots/noise/seq_sin2x_100ep_sigma002_error.png Graphic file (type png)
+
+<use plots/noise/seq_sin2x_100ep_sigma002_error.png>
+Package pdftex.def Info: plots/noise/seq_sin2x_100ep_sigma002_error.png used on
+ input line 126.
+(pdftex.def)             Requested size: 137.9979pt x 103.49792pt.
+
+<plots/noise/seq_sin2x_15nodes_sigma1_error_per_epoch.png, id=38, 462.528pt x 3
+46.896pt>
+File: plots/noise/seq_sin2x_15nodes_sigma1_error_per_epoch.png Graphic file (ty
+pe png)
+ <use plots/noise/seq_sin2x_15nodes_sigma1_error_per_epoch.png>
+Package pdftex.def Info: plots/noise/seq_sin2x_15nodes_sigma1_error_per_epoch.p
+ng used on input line 138.
+(pdftex.def)             Requested size: 137.9979pt x 103.49792pt.
+
+<plots/noise/seq_sin2x_15nodes_sigma1_error_per_epoch_eta01.png, id=39, 462.528
+pt x 346.896pt>
+File: plots/noise/seq_sin2x_15nodes_sigma1_error_per_epoch_eta01.png Graphic fi
+le (type png)
+
+<use plots/noise/seq_sin2x_15nodes_sigma1_error_per_epoch_eta01.png>
+Package pdftex.def Info: plots/noise/seq_sin2x_15nodes_sigma1_error_per_epoch_e
+ta01.png used on input line 143.
+(pdftex.def)             Requested size: 137.9979pt x 103.49792pt.
+
+<plots/noise/seq_sin2x_15nodes_sigma1_error_per_epoch_eta005.png, id=40, 462.52
+8pt x 346.896pt>
+File: plots/noise/seq_sin2x_15nodes_sigma1_error_per_epoch_eta005.png Graphic f
+ile (type png)
+
+<use plots/noise/seq_sin2x_15nodes_sigma1_error_per_epoch_eta005.png>
+Package pdftex.def Info: plots/noise/seq_sin2x_15nodes_sigma1_error_per_epoch_e
+ta005.png used on input line 147.
+(pdftex.def)             Requested size: 137.9979pt x 103.49792pt.
+
+<plots/noise/seq_sin2x_15nodes_sigma1_error_per_epoch_eta001.png, id=41, 462.52
+8pt x 346.896pt>
+File: plots/noise/seq_sin2x_15nodes_sigma1_error_per_epoch_eta001.png Graphic f
+ile (type png)
+
+<use plots/noise/seq_sin2x_15nodes_sigma1_error_per_epoch_eta001.png>
+Package pdftex.def Info: plots/noise/seq_sin2x_15nodes_sigma1_error_per_epoch_e
+ta001.png used on input line 152.
+(pdftex.def)             Requested size: 137.9979pt x 103.49792pt.
+
+<plots/CL/sin2x_seq_CL_vs_no_cl_plots.png, id=42, 462.528pt x 346.896pt>
+File: plots/CL/sin2x_seq_CL_vs_no_cl_plots.png Graphic file (type png)
+
+<use plots/CL/sin2x_seq_CL_vs_no_cl_plots.png>
+Package pdftex.def Info: plots/CL/sin2x_seq_CL_vs_no_cl_plots.png used on input
+ line 164.
+(pdftex.def)             Requested size: 137.9979pt x 103.49792pt.
+
+<plots/CL/sin2x_seq_CL_vs_no_cl_plots_error.png, id=43, 462.528pt x 346.896pt>
+File: plots/CL/sin2x_seq_CL_vs_no_cl_plots_error.png Graphic file (type png)
+
+<use plots/CL/sin2x_seq_CL_vs_no_cl_plots_error.png>
+Package pdftex.def Info: plots/CL/sin2x_seq_CL_vs_no_cl_plots_error.png used on
+ input line 169.
+(pdftex.def)             Requested size: 137.9979pt x 103.49792pt.
+
+<plots/2D/input_basic_both_cl_batch_test.png, id=44, 462.528pt x 346.896pt>
+File: plots/2D/input_basic_both_cl_batch_test.png Graphic file (type png)
+
+<use plots/2D/input_basic_both_cl_batch_test.png>
+Package pdftex.def Info: plots/2D/input_basic_both_cl_batch_test.png used on in
+put line 179.
+(pdftex.def)             Requested size: 137.9979pt x 103.49792pt.
+
+<plots/2d/first_basic_both_CL_output_seq_test_20_sigma25.png, id=45, 462.528pt 
+x 346.896pt>
+File: plots/2d/first_basic_both_CL_output_seq_test_20_sigma25.png Graphic file 
+(type png)
+ <use plots/2d/first_basic_both_CL_output_seq_test_20_sigma25.png>
+Package pdftex.def Info: plots/2d/first_basic_both_CL_output_seq_test_20_sigma2
+5.png used on input line 184.
+(pdftex.def)             Requested size: 137.9979pt x 103.49792pt.
+
+Underfull \hbox (badness 5388) in paragraph at lines 185--185
+\OT1/cmr/m/n/9 with and with-out com-pet-i-tive
+ []
+
+[3 <./plots/batch/best_square2x_extreme.png> <./plots/batch/best_square_cheat.p
+ng> <./plots/batch/square_error_sign.png>] [4 <./plots/noise/batch_sin2x_sigma1
+.png> <./plots/noise/batch_sin2x_error_sigma1.png> <./plots/noise/batch_sin2x_s
+igma_002.png> <./plots/noise/batch_sin2x_error_sigma_002.png>] [5 <./plots/nois
+e/seq_sin2x_100ep_sigma1.png> <./plots/noise/seq_sin2x_100ep_sigma1_error.png> 
+<./plots/noise/seq_sin2x_100ep_sigma002.png> <./plots/noise/seq_sin2x_100ep_sig
+ma002_error.png>] [6 <./plots/noise/seq_sin2x_15nodes_sigma1_error_per_epoch.pn
+g> <./plots/noise/seq_sin2x_15nodes_sigma1_error_per_epoch_eta01.png> <./plots/
+noise/seq_sin2x_15nodes_sigma1_error_per_epoch_eta005.png> <./plots/noise/seq_s
+in2x_15nodes_sigma1_error_per_epoch_eta001.png> <./plots/CL/sin2x_seq_CL_vs_no_
+cl_plots.png> <./plots/CL/sin2x_seq_CL_vs_no_cl_plots_error.png>] [7 <./plots/2
+D/input_basic_both_cl_batch_test.png> <./plots/2d/first_basic_both_CL_output_se
+q_test_20_sigma25.png>] (./report.aux) ) 
+Here is how much of TeX's memory you used:
+ 3072 strings out of 492995
+ 50101 string characters out of 6132704
+ 111087 words of memory out of 5000000
+ 6574 multiletter control sequences out of 15000+600000
+ 7887 words of font info for 28 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 42i,7n,40p,382b,444s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2017/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2017/texmf-dist/font
+s/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2017/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2017/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2017/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmr7.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmr9.pfb>
+Output written on report.pdf (7 pages, 777033 bytes).
 PDF statistics:
- 63 PDF objects out of 1000 (max. 8388607)
- 33 compressed objects within 1 object stream
+ 111 PDF objects out of 1000 (max. 8388607)
+ 46 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 116 words of extra memory for PDF output out of 10000 (max. 10000000)
 

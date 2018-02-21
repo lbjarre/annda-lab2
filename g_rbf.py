@@ -15,8 +15,10 @@ def generateData(fun=0, noise=0,offset=0.05):
     else:
         label = signal.square(2*t)
         valid_label = signal.square(2*valid)
-    label = label + np.random.normal(0,0.1,len(train))*noise
-    valid_label = valid_label + np.random.normal(0,0.1,len(train))*noise
+
+    noi =np.random.normal(0,0.1,len(train))*noise
+    label = label + noi
+    valid_label = valid_label + noi
 
     return train, valid, label, valid_label
 
@@ -64,11 +66,13 @@ def seq_learn(x, label, phi_x, t, eta):
 
         f_temp = np.dot(W,phi_x.T)
         tot_err = (f_temp-label)**2
-        error.append(np.mean(tot_err))
 
-    f = np.dot(W,phi_x_start.T)
 
-    return f, W, error
+    f_hat = np.dot(W,phi_x_start.T)
+
+    error = np.mean((f_hat-label)**2)
+
+    return f_hat, W, error
 
 def dist_(x, W, r=.5):
     temp = np.subtract.outer(x,W)
@@ -93,8 +97,8 @@ def winner(x,mu,fac=10):
 
     return wins
 
-def batch_plots(sigma2=1):
-    x, valid, label, valid_label = generateData(fun=1, noise=0)
+def batch_plots(sigma2=.02):
+    x, valid, label, valid_label = generateData(fun=0, noise=1)
 
     no_of_nodes = np.arange(1,16,1)
     errors = []
@@ -107,26 +111,31 @@ def batch_plots(sigma2=1):
         f_hat_b, W_b, error = batch_train(x, label, phi_x)
         phi_test = phi(valid, mu, sigma2)
         f_test = np.dot(W_b, phi_test)
+        #f_test = np.sign(f_test)
         errors.append(error)
         test_error.append(np.mean((f_test-valid_label)**2))
 
     phi_test = phi(valid, mu, sigma2)
 
     f_test = np.dot(W_b, phi_test)
-    #print(errors)
+    #f_test = np.sign(f_test)
+    print(test_error)
+    print(np.min(test_error))
 
     fig = plt.figure()
 
     train, = plt.plot(x,f_hat_b, c="b", label="Training")
     true, = plt.plot(x,label, '--r', label="True")
     test, = plt.plot(valid, f_test, label="Test")
+    #plt.scatter(valid, f_test)
 
     nodes = plt.scatter(mu, np.zeros(mu.shape), label="Nodes")
     plt.legend(handles=[train, test, true, nodes, ])
     plt.xlabel('x')
     plt.ylabel('f(x)')
-    plt.title('Test data: Batch: Sin(2x), with noise: Sigma = ' + str(sigma2) + " Nodes: " + str(i))
-    fig.savefig('report/plots/batch/batch_square2x_sharp_test')
+    plt.title('Batch: sin(2x), with noise: Sigma = ' + str(sigma2) + " Nodes: " + str(i))
+
+    #fig.savefig('report/plots/noise/batch_sin2x_sigma_002.png')
 
     plt.show()
 
@@ -134,31 +143,35 @@ def batch_plots(sigma2=1):
 
     tra, = plt.plot(no_of_nodes, errors, label="training")
     test_er, = plt.plot(no_of_nodes, test_error, label="test")
-    plt.title('Sin(2x), with noise: Sigma = ' + str(sigma2))
+    plt.title('sin(2x), with noise: Sigma = ' + str(sigma2))
     plt.xlabel('# nodes')
     plt.ylabel('error')
     plt.legend(handles=[tra, test_er])
 
-    fig2.savefig('report/plots/batch/batch_square2x_sharp_test_error')
+    #fig2.savefig('report/plots/noise/batch_sin2x_error_sigma_002.png')
 
     plt.show()
 
-def seq_plots(sigma2=0.5):
+def seq_plots(sigma2=1):
     x, valid, label, valid_label = generateData(0, noise=1)
     t = 100 #number of epochs
     eta = 0.2 #step size, learning rate
 
-    no_of_nodes = np.arange(2,41,1)
+    #no_of_epochs = np.arange(1,101,1)
+    no_of_nodes = np.arange(2,16,1)
     tot_errors = []
     test_error = []
+    #i = 15
 
     for i in no_of_nodes:
         #mu = np.random.uniform(low=0, high=np.pi*2, size=(i,))
         mu = np.linspace(0,2*np.pi,i)
         phi_x = phi(x,mu,sigma2).T
         f_hat, W, error = seq_learn(x, label, phi_x, t, eta)
+        f_hat = np.dot(W, phi_x.T)
+        error_outside = np.mean((f_hat-label)**2)
         #print(np.mean(error))
-        tot_errors.append(np.mean(error))
+        tot_errors.append(error_outside)
 
         phi_test = phi(valid, mu, sigma2)
         f_test = np.dot(W, phi_test)
@@ -166,14 +179,16 @@ def seq_plots(sigma2=0.5):
 
     fig = plt.figure()
 
-    plt.title('Sin(2x), with noise: Sigma = ' + str(sigma2) + ' Epochs: ' + str(t) + ' eta: ' + str(eta))
+    plt.title('sin(2x), with noise: Sigma = ' + str(sigma2) + ' Nodes: ' + str(i) + ' eta: ' + str(eta))
     train_plot, = plt.plot(no_of_nodes, tot_errors, label="Training Err")
     test_plot, = plt.plot(no_of_nodes, test_error, label="Test Err")
     plt.xlabel('# nodes')
     plt.ylabel('error')
     plt.legend(handles=[train_plot, test_plot])
 
-    fig.savefig('report/plots/noise/noise_seq_sin2x_error_'+str(t)+'ep_test')
+    #seq_sin2x_100ep_sigma1_error
+    #fig.savefig('report/plots/noise/seq_sin2x_'+str(t)+'ep_sigma1')
+    fig.savefig('report/plots/noise/seq_sin2x_'+str(t)+'ep_sigma1_error')
 
     plt.show()
 
@@ -187,39 +202,45 @@ def seq_plots(sigma2=0.5):
     plt.xlabel('x')
     plt.ylabel('f(x)')
 
-    plt.title('Sin(2x), with noise: Sigma = ' + str(sigma2) + ' Epochs: ' + str(t) + ' eta: ' + str(eta) + ' Nodes: ' + str(i))
+    plt.title('sin(2x), with noise: Sigma = ' + str(sigma2) + ' Epochs: ' + str(t) + ' eta: ' + str(eta) + ' Nodes: ' + str(i))
 
-    fig2.savefig('report/plots/noise/noise_resistant_sin2x_seq_test')
+    #fig2.savefig('report/plots/noise/seq_sin2x_'+str(t)+'ep_sigma1')
 
-    plt.show()
+    #plt.show()
 
 def CL_plots(sigma2=0.5):
     x, valid, label, valid_label = generateData(0, noise=1)
     epochs = 100#number of epochs
     eta = 0.2 #step size, learning rate
 
-    no_of_nodes = np.arange(2,21,1)
+    no_of_nodes = np.arange(2,16,1)
     tot_errors_cl = []
     tot_errors = []
 
     for i in no_of_nodes:
         mu = np.linspace(0,2*np.pi,i)
         mu_copy = np.copy(mu)
-        mu_cl = clearning(x, mu_copy, t=50,r=0.01)
+        mu_cl = clearning(x, mu_copy, t=100,r=0.01)
         phi_x_cl = phi(x,mu_cl,sigma2).T
-        f_hat_cl, W, error_cl = seq_learn(x, label, phi_x_cl, epochs, eta)
+        f_hat_cl, W_cl, error_cl = seq_learn(x, label, phi_x_cl, epochs, eta)
         #f_hat_cl, W, error_cl = batch_train(x, label, phi_x_cl, sigma2)
 
         phi_x = phi(x,mu,sigma2).T
         f_hat, W, error = seq_learn(x, label, phi_x, epochs, eta)
-        #f_hat, W, error = batch_train(x, label, phi_x, sigma2)
-        tot_errors_cl.append(np.mean(error_cl))
-        tot_errors.append(np.mean(error))
 
-    winners_cl = winner(x,mu_cl)
+        phi_test = phi(valid, mu, sigma2)
+
+        f_test = np.dot(W, phi_test)
+        f_test_cl = np.dot(W_cl, phi_test)
+
+        #f_hat, W, error = batch_train(x, label, phi_x, sigma2)
+        tot_errors_cl.append(np.mean((f_test_cl-valid_label)**2))
+        tot_errors.append(np.mean((f_test-valid_label)**2))
+
+    winners_cl = winner(valid,mu_cl)
 
     fig = plt.figure()
-    """
+
     tru, = plt.plot(x, f_hat_cl, c="b", label="Estimated - CL")
     est, = plt.plot(x, label, '--r', label="True")
     no_cl, = plt.plot(x, f_hat, 'g', label="No CL")
@@ -230,8 +251,13 @@ def CL_plots(sigma2=0.5):
     plt.xlabel('x')
     plt.ylabel('f(x)')
 
+    #fig.savefig('report/plots/cl/')
+
+    plt.show()
+
     plt.title('Sin(2x) seq, Sigma = ' + str(sigma2) + ' Epochs: ' + str(epochs) + ' eta: ' + str(eta) + ' Nodes: ' + str(i))
-    """
+
+    fig2 = plt.figure()
     plt.title('Sin(2x), with noise: Sigma = ' + str(sigma2))
     CL, = plt.plot(no_of_nodes, tot_errors_cl, label="CL")
     NoCL, = plt.plot(no_of_nodes, tot_errors, label="No CL")
@@ -239,7 +265,7 @@ def CL_plots(sigma2=0.5):
     plt.ylabel('error')
     plt.legend(handles=[CL, NoCL])
 
-    fig.savefig('report/plots/cl/')
+    #fig2.savefig('report/plots/cl/')
 
     plt.show()
 
@@ -329,6 +355,6 @@ def assignment1():
 
 if __name__ == "__main__":
     #assignment1()
-    batch_plots()
+    #batch_plots()
     #seq_plots()
-    #CL_plots()
+    CL_plots()
