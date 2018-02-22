@@ -170,12 +170,12 @@ In comparison to a MLP network the RBF approach is way more efficient and accura
     \centering
     \begin{subfigure}[t]{0.4\textwidth}
         \centering
-        \includegraphics[width=1\textwidth]{plots/CL/sin2x_seq_CL_vs_no_cl_plots}
+        \includegraphics[width=1\textwidth]{plots/cl/sin2x_seq_CL_vs_no_cl_plots}
         \caption{Generated functions plotted with the node RBF node positions, with and without CL.}
     \end{subfigure}
     \begin{subfigure}[t]{0.4\textwidth}
         \centering
-        \includegraphics[width=1\textwidth]{plots/CL/sin2x_seq_CL_vs_no_cl_plots_error}
+        \includegraphics[width=1\textwidth]{plots/cl/sin2x_seq_CL_vs_no_cl_plots_error}
         \caption{Error as a function of the number of nodes, with and without competitive learning.}
     \end{subfigure}
     \caption{Plots of the effects of Cmpetitive Learning}
@@ -185,7 +185,7 @@ In comparison to a MLP network the RBF approach is way more efficient and accura
     \centering
     \begin{subfigure}[t]{0.4\textwidth}
         \centering
-        \includegraphics[width=1\textwidth]{plots/2D/input_basic_both_cl_batch_test}
+        \includegraphics[width=1\textwidth]{plots/2d/input_basic_both_cl_batch_test}
         \caption{Test data and the node positions before and after competitive learning}
     \end{subfigure}
     \begin{subfigure}[t]{0.4\textwidth}
@@ -196,6 +196,7 @@ In comparison to a MLP network the RBF approach is way more efficient and accura
     \caption{}
 \end{figure}
 
+<<<<<<< HEAD
 The effects of applying competitive learning were quite weak. The resulting predictions could be improved a bit which can be seen in the result plots. Perhaps more interesting is what hap pend to the location of the nodes in the input space. The nodes were noticeably more spread out, allowing for better representation of the input data. There were still some areas near the middle of the data where multiple nodes ended up, however at the edges the nodes placed with the use of CL reached much more of the input data. The same amount of "representation" could probably have been reached with random placement, however with CL this could be done using a lot fewer nodes.
 
 \FloatBarrier
@@ -217,4 +218,6 @@ In this part the 31-dimensional input data consisting of how different MPs of pa
 % PLOT OF GENDER VOTES
 
 % PLOT OF DISTRICT VOTES
+=======
+>>>>>>> ff6f1e19faa9f9c5d00803d15b4a036b9093652d
 \end{document}
